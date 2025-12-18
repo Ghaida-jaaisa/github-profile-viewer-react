@@ -133,7 +133,7 @@ a:hover {
 .profile-card {
   height: fit-content;
   background: whitesmoke;
-  padding: 5px 10px;
+  padding: 10px 10px;
   border-radius: 20px;
   text-align: center;
   color: var(--card);
@@ -159,6 +159,7 @@ a:hover {
   border-radius: 50%;
   position: relative;
   margin: 0 auto;
+  padding: 5px 5px;
 }
 
 .profile-img {
