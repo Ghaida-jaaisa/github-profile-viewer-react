@@ -46,11 +46,11 @@
   display: flex;
   gap: 15px;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .page-container > * {
-  width: 50%;
+  width: 45%;
 }
 
 .left-page {
