@@ -1,11 +1,18 @@
 import { useState } from "react";
 import UserCard from "./UserCard";
 
-export default function LeftPage() {
+export default function UserProfile({ onUserFetched }) {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   async function fetchGithubAPI() {
+    if (!username.trim()) return;
+
+    setLoading(true);
+    setError(null);
+
     try {
       const url = `https://api.github.com/users/${username}`;
       const response = await fetch(url);
@@ -16,8 +23,11 @@ export default function LeftPage() {
         }
         throw new Error("Something went wrong, try again later");
       }
-      // All good
+
       const data = await response.json();
+
+      onUserFetched(data.login);
+
       const {
         name,
         login,
@@ -26,9 +36,7 @@ export default function LeftPage() {
         followers,
         following,
         location,
-        public_repos,
         avatar_url,
-        repos_url,
       } = data;
 
       setUser({
@@ -39,30 +47,36 @@ export default function LeftPage() {
         followers,
         following,
         location,
-        public_repos,
         avatar_url,
-        repos_url,
       });
-    } catch (error) {
-      setUser({ name: error.message });
+    } catch (err) {
+      setError(err.message);
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className="left-page">
       <h1>Github Profile Viewer</h1>
+
       <div className="search-bar">
         <input
           type="text"
           name="username"
           id="username"
+          placeholder="Enter GitHub username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <button className="btn" onClick={fetchGithubAPI}>
-          Fetch
+
+        <button className="btn" onClick={fetchGithubAPI} disabled={loading}>
+          {loading ? "Loading..." : "Fetch"}
         </button>
       </div>
+
+      {error && <p className="error">{error}</p>}
       {user && <UserCard {...user} />}
     </div>
   );

@@ -1,11 +1,9 @@
 import "./App.css";
-import LeftPage from "./components/LeftPage";
-import RightPage from "./components/RightPage";
+import GithubProfile from "./components/GithubPage";
 function App() {
   return (
     <div className="app-container">
-      <LeftPage />
-      <RightPage />
+      <GithubProfile />
     </div>
   );
 }

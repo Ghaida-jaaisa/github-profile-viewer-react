@@ -1,8 +1,16 @@
 #root {
-  max-width: 1280px;
+  max-width: 1700px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  /* Color pallete */
+  --bg: #0d1117;
+  --card: #161b22;
+  --text: #c9d1d9;
+  --accent: #238636;
+  --error: #f85149;
+  --small-card: #2a313c;
 }
 .logo {
   height: 6em;
@@ -34,14 +42,14 @@
 
 /*  */
 
-.app-container {
+.page-container {
   display: flex;
   gap: 15px;
   justify-content: space-around;
   align-items: center;
 }
 
-.app-container > div {
+.page-container > * {
   width: 50%;
 }
 
@@ -49,7 +57,7 @@
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-  align-items: center;
+  align-items: flex-start;
   gap: 15px;
 }
 .search-bar {
@@ -59,19 +67,6 @@
   gap: 10px;
 }
 /* Add previous style */
-
-:root {
-  --bg: #0d1117;
-  --card: #161b22;
-  --text: #c9d1d9;
-  --accent: #238636;
-  --error: #f85149;
-  --small-card: #2a313c;
-
-  /* 
-  */
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -79,23 +74,10 @@
 }
 
 body {
-  margin: 0;
   font-family: "Rubik", sans-serif;
   background: var(--bg);
   color: var(--text);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
   min-height: 100vh;
-}
-
-.container {
-  width: 100%;
-  max-width: calc(100% - 400px);
-  margin: 0 auto;
-  text-align: center;
 }
 
 h1 {
