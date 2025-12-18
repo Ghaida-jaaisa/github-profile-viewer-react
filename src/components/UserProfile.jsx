@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import UserCard from "./UserCard";
 
 export default function UserProfile({ onUserFetched }) {
@@ -6,10 +6,10 @@ export default function UserProfile({ onUserFetched }) {
   const [username, setUsername] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const fetchBtnRef = useRef(null);
 
   async function fetchGithubAPI() {
     if (!username.trim()) return;
-
     setLoading(true);
     setError(null);
 
@@ -57,6 +57,9 @@ export default function UserProfile({ onUserFetched }) {
     }
   }
 
+  if (username) {
+    window.addEventListener("keydown", fetchGithubAPI);
+  }
   return (
     <div className="left-page">
       <h1>Github Profile Viewer</h1>
@@ -71,7 +74,12 @@ export default function UserProfile({ onUserFetched }) {
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        <button className="btn" onClick={fetchGithubAPI} disabled={loading}>
+        <button
+          className="btn"
+          onClick={fetchGithubAPI}
+          disabled={loading}
+          ref={fetchBtnRef}
+        >
           {loading ? "Loading..." : "Fetch"}
         </button>
       </div>

@@ -6,7 +6,7 @@ function GitHubPage() {
   const [username, setUsername] = useState(null);
 
   return (
-    <div style={{ display: "flex" }} className="page-container">
+    <div className="page-container">
       <UserProfile onUserFetched={setUsername} />
       <UserRepos username={username} />
     </div>

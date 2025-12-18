@@ -1,5 +1,6 @@
 export default function UserCard({
   name,
+  login,
   bio,
   company,
   followers,
@@ -20,7 +21,7 @@ export default function UserCard({
         />
       </div>
 
-      <h2>{name}</h2>
+      <h2>{name ?? login}</h2>
       <p>{bio}</p>
       <p>{company}</p>
 
