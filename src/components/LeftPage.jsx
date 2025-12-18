@@ -44,7 +44,7 @@ export default function LeftPage() {
         repos_url,
       });
     } catch (error) {
-      setUser({ name: "Not Found" });
+      setUser({ name: error.message });
     }
   }
 

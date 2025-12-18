@@ -7,7 +7,7 @@ export default function UserCard({
   location,
   avatar_url,
 }) {
-  const isFound = name && name != "Not Found";
+  const isFound = name && name != "User not found";
   const userIcon = "/assets/images/user-regular-full.svg";
   const avatar_url_img = avatar_url ? avatar_url : userIcon;
   return (
