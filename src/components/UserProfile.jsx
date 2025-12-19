@@ -3,7 +3,7 @@ import UserCard from "./UserCard";
 
 export default function UserProfile({ onUserFetched }) {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const fetchBtnRef = useRef(null);

@@ -7,7 +7,8 @@ export default function UserRepos({ username }) {
   const [error, setError] = useState(null);
 
   const repo_url = `https://api.github.com/users/${username}/repos`;
-
+  const reposCount = repos.length;
+  // const reposIds = repos.map((repo) => repo.id);
   useEffect(() => {
     fetchGithubRepos();
   }, [username]);
@@ -34,10 +35,21 @@ export default function UserRepos({ username }) {
   return (
     username && (
       <div className="user-repos">
+        <img
+          src="/assets/images/arrow-left.svg"
+          alt="arrow-left"
+          className="arrow left-arrow"
+        />
+
         <h2>
           <b>Public Repos : {repos.length}</b>
         </h2>
 
+        <img
+          src="/assets/images/arrow-right.svg"
+          alt="arrow-right"
+          className="arrow right-arrow"
+        />
         {repos.map((repo) => (
           <RepoCard
             key={repo.name}
