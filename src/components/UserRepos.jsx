@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RepoCard from "./RepoCard";
 
 export default function UserRepos({ username }) {
@@ -7,6 +7,10 @@ export default function UserRepos({ username }) {
   const [error, setError] = useState(null);
 
   const repo_url = `https://api.github.com/users/${username}/repos`;
+
+  useEffect(() => {
+    fetchGithubRepos();
+  }, [username]);
 
   async function fetchGithubRepos() {
     try {
@@ -23,9 +27,6 @@ export default function UserRepos({ username }) {
     }
   }
 
-  if (username) {
-    fetchGithubRepos();
-  }
   if (username) {
     if (loading) return <p>Loading repos...</p>;
     if (error) return <p>Error: {error}</p>;

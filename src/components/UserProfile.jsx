@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import UserCard from "./UserCard";
 
 export default function UserProfile({ onUserFetched }) {
@@ -57,9 +57,20 @@ export default function UserProfile({ onUserFetched }) {
     }
   }
 
-  if (username) {
-    window.addEventListener("keydown", fetchGithubAPI);
-  }
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === "Enter") {
+        fetchBtnRef.current.click();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="left-page">
       <h1>Github Profile Viewer</h1>

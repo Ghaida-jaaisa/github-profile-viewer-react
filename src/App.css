@@ -188,7 +188,7 @@ h3 {
 
 .user-repos {
   display: grid;
-  grid-template-columns: 1fr 1f;
+  grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
 
