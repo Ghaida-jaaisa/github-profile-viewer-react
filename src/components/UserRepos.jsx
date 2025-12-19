@@ -8,7 +8,7 @@ export default function UserRepos({ username, public_repos }) {
   const [reposCache, setReposCache] = useState({});
   const [currentRepos, setCurrentRepos] = useState([]);
   const repo_per_page = 2;
-  const number_of_pages = ceil(public_repos / repo_per_page);
+  const number_of_pages = Math.ceil(public_repos / repo_per_page);
 
   useEffect(() => {
     const cachedRepos = localStorage.getItem("reposCache");
