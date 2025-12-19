@@ -3,7 +3,7 @@ import UserCard from "./UserCard";
 
 export default function UserProfile({ onUserFetched }) {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const fetchBtnRef = useRef(null);
@@ -25,8 +25,9 @@ export default function UserProfile({ onUserFetched }) {
       }
 
       const data = await response.json();
+      localStorage.setItem("lastUserFetched", JSON.stringify(data));
 
-      onUserFetched(data.login);
+      onUserFetched(data.login, data.public_repos);
 
       const {
         name,
@@ -56,6 +57,15 @@ export default function UserProfile({ onUserFetched }) {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("lastUserFetched");
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+      setUsername(parsedUser.login);
+    }
+  }, []);
 
   useEffect(() => {
     function handleKeyDown(e) {
