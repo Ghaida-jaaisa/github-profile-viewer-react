@@ -10,7 +10,7 @@ export default function UserRepos({ username, public_repos }) {
   const [repoName, setRepoName] = useState("");
   const [allRepos, setAllRepos] = useState([]);
 
-  const repo_per_page = 2;
+  const repo_per_page = 4;
   const number_of_pages = Math.ceil(public_repos / repo_per_page);
 
   // useEffect(() => {
