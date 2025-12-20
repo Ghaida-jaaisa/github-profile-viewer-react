@@ -200,15 +200,87 @@ h3 {
 
 .user-repos {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns: repeat(4, 1fr); */
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+
   gap: 15px;
 }
 
 h2 {
   grid-column: 2 span;
 }
-.user-repos > :nth-child(n + 4) {
-  grid-column: 2 span;
+
+.search-repo-input {
+  grid-column: span 2;
+}
+.user-repos > :nth-child(n + 5) {
+  grid-column: 3 span;
+  width: 100%;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.search-repo-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 14px 10px 16px;
+  background: var(--small-card);
+  border-radius: 20px;
+}
+
+.search-repo-input::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    #b294ff,
+    #57e6e6,
+    #feffb8,
+    #57e6e6,
+    #b294ff
+  );
+  background-size: 500% auto;
+  animation: gradient 3s linear infinite;
+}
+
+.search-repo-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--small-card);
+  font-size: 16px;
+  color: white;
+}
+
+.search-repo-input input::placeholder {
+  color: #7881a1;
+}
+
+.search-repo-input button {
+  background: none;
+  border: none;
+  color: #7881a1;
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.25s;
+  border-radius: 50px;
+}
+
+.search-repo-input button:hover {
+  color: #bfd2ff;
 }
 
 .profile-repo {
@@ -223,18 +295,6 @@ h2 {
   padding: 20px;
   color: var(--text);
 }
-
-#backToTop {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-  display: none;
-}
-
-#backToTop:hover {
-  transform: translateY(-10px);
-}
-
 .following {
   background: #6c63ff;
 }
