@@ -1,5 +1,5 @@
 #root {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -85,7 +85,7 @@ body {
 
 h1 {
   margin-bottom: 20px;
-  font-size: 40px;
+  font-size: 32px;
 }
 
 form {
@@ -154,7 +154,8 @@ img:disabled {
   flex-direction: column;
   gap: 5px;
   align-items: center;
-  /* flex-direction: colum/n; */
+  height: 100%;
+  width: 100%;
 }
 
 #publicReposCount {
@@ -207,81 +208,87 @@ h2 {
   grid-column: span 2;
 }
 
-h2 {
+.h2-span2 {
   grid-column: 2 span;
 }
+.h2-span3 {
+  grid-column: 3 span;
+}
 
-.search-repo-input {
+
+
+.search-repo-input-span-2 {
   grid-column: span 2;
 }
-.user-repos > :nth-child(n + 5) {
+.search-repo-input-span-3 {
+  grid-column: span 3;
+}
+.profile-repo {
   grid-column: 3 span;
   width: 100%;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+.search-box-span-2 {
+  position: relative;
+  grid-column: span 2;
+}
+.search-box-span-3 {
+  position: relative;
+  grid-column: span 3;
 }
 
-.search-repo-input {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 14px 10px 16px;
-  background: var(--small-card);
+.input-search {
+  height: 50px;
+  padding: 10px 10px 10px 10px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  color: #fff;
+  background-color: var(--small-card);
+  font-size: 18px;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.input-search::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-search {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  right: 0;
+  padding: 0;
+  margin: 0 auto;
   border-radius: 20px;
 }
 
-.search-repo-input::after {
-  content: "";
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 0;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    #b294ff,
-    #57e6e6,
-    #feffb8,
-    #57e6e6,
-    #b294ff
-  );
-  background-size: 500% auto;
-  animation: gradient 3s linear infinite;
+/* expand on focus */
+.input-search:focus,
+.btn-search:focus ~ .input-search {
+  /* width: 100%; */
+  border-radius: 0;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.search-repo-input input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--small-card);
-  font-size: 16px;
-  color: white;
+/* need update: ++ when input focus */
+.btn-search:focus {
+  border-radius: 0;
 }
 
-.search-repo-input input::placeholder {
-  color: #7881a1;
+.btn-search:hover {
+  border: 1px var(--accent) solid;
 }
 
-.search-repo-input button {
-  background: none;
-  border: none;
-  color: #7881a1;
-  font-size: 22px;
-  cursor: pointer;
-  transition: color 0.25s;
-  border-radius: 50px;
-}
-
-.search-repo-input button:hover {
-  color: #bfd2ff;
+.btn-search:focus {
+  background-color: green;
 }
 
 .profile-repo {
@@ -323,7 +330,8 @@ h2 {
 
 .follow img,
 .location-img,
-.starContainer img {
+.starContainer img,
+.btn-search img {
   width: 20px;
 }
 
