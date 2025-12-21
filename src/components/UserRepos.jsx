@@ -4,20 +4,17 @@ import RepoCard from "./RepoCard";
 export default function UserRepos({ username, public_repos }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [page, setPage] = useState(1);
   const [reposCache, setReposCache] = useState({});
   const [currentRepos, setCurrentRepos] = useState([]); // to deal with current repos (dynamic, or by searhing)
   const [repoName, setRepoName] = useState("");
-  const [tempRepos, setTempRepos] = useState({}); // to store cached repos when searching
   const [searchMode, setSearchMode] = useState(false);
-  const [searchedRepos, setSearchedRepos] = useState([]);
   const repo_per_page = 4;
   const number_of_pages = Math.max(
     1,
     Math.ceil((public_repos || 0) / repo_per_page)
   );
-
-  const reposToShow = searchMode ? searchedRepos : currentRepos;
 
   // useEffect(() => {
   //   const cachedRepos = localStorage.getItem("reposCache");
@@ -26,24 +23,17 @@ export default function UserRepos({ username, public_repos }) {
   //   }
   // }, []);
 
+  // Handle search mode state
   useEffect(() => {
     if (!repoName) {
       setSearchMode(false);
-      setCurrentRepos(tempRepos);
     }
   }, [repoName]);
 
-  // to support circular display
-  useEffect(() => {
-    if (page > number_of_pages) setPage(1);
-  }, [page]);
-
+  // Reset data when username changes
   useEffect(() => {
     if (username) {
-      setLoading(true);
-      setSearchMode(false);
       setCurrentRepos([]);
-      setTempRepos([]);
       setReposCache({});
       setPage(1);
     }
@@ -54,17 +44,8 @@ export default function UserRepos({ username, public_repos }) {
       return;
     }
     fetchGithubRepos(page);
-  }, [page]);
+  }, [page, username, searchMode]);
 
-  /// Search By Repo name
-  // use differnt end point
-  // About Logic :
-  /*
-1. store cached repos to all repos
-2. fetch the required repos
-3. store required repos to currentRepos
-4. When search become null -> send tempRepos to current Repos
-*/
   async function fetchRepoByName(repoName) {
     if (!repoName) {
       return;
@@ -84,11 +65,10 @@ export default function UserRepos({ username, public_repos }) {
       }
 
       const data = await response.json();
-      const result = data["items"];
-      setSearchedRepos(result);
+      setCurrentRepos(data.items);
     } catch (err) {
       setError(err.message);
-      setRepoName("");
+      // setRepoName("");
     } finally {
       setLoading(false);
     }
@@ -104,6 +84,8 @@ export default function UserRepos({ username, public_repos }) {
       return;
     }
     const repo_url = `https://api.github.com/users/${username}/repos?per_page=${repo_per_page}&page=${page}`;
+    
+    // Check if page data is in cache
     if (reposCache[page]) {
       setCurrentRepos(reposCache[page]);
       return;
@@ -120,7 +102,6 @@ export default function UserRepos({ username, public_repos }) {
       const newCache = { ...reposCache, [page]: data }; // add cuurent req to cached fetched repos
       setReposCache(newCache);
       setCurrentRepos(data);
-      setTempRepos(data); // -- check this
       // localStorage.setItem("reposCache", JSON.stringify(newCache));
     } catch (err) {
       setError(err.message);
@@ -142,18 +123,18 @@ export default function UserRepos({ username, public_repos }) {
           alt="arrow-left"
           className="arrow left-arrow"
           // ref={leftArrowRef}
-          onClick={() =>
-            setPage((p) => {
-              p !== 1 ? p - 1 : number_of_pages;
-            })
-          }
+          onClick={() => setPage((p) => (p === 1 ? number_of_pages : p - 1))}
         />
       )}
       <h2 className={searchMode ? "h2-span3" : "h2-span2"}>
         Public Repos: {public_repos}
       </h2>
       <div className={searchMode ? "search-box-span-3" : "search-box-span-2"}>
-        <button className="btn-search" onClick={handleSearch}>
+        <button
+          disabled={searchMode || loading}
+          className="btn-search"
+          onClick={handleSearch}
+        >
           <img
             src="/magnifying-glass-solid-full.svg"
             alt="magnifying-glass-solid-full"
@@ -174,10 +155,10 @@ export default function UserRepos({ username, public_repos }) {
           src="/assets/images/arrow-right.svg"
           alt="arrow-right"
           className="arrow right-arrow"
-          onClick={() => setPage((p) => p + 1)}
+          onClick={() => setPage((p) => (p < number_of_pages ? p + 1 : 1))}
         />
       )}
-      {reposToShow.map((repo) => (
+      {currentRepos.map((repo) => (
         <RepoCard
           key={repo.name}
           name={repo.name}
