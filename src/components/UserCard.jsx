@@ -22,8 +22,8 @@ export default function UserCard({
       </div>
 
       <h2>{name ?? login}</h2>
-      <p>{bio}</p>
-      <p>{company}</p>
+      <p className="bio">{bio}</p>
+      <p className="company">{company}</p>
 
       {isFound && (
         <div className="follow-info">
@@ -53,7 +53,7 @@ export default function UserCard({
             alt="location"
             className="location-img"
           />
-          <span>{location}</span>
+          <span>{location ??  'In this world'}</span>
         </div>
       )}
     </div>
