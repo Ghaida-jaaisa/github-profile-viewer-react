@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RepoCard from "./RepoCard";
 
 export default function UserRepos({ username, public_repos }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [page, setPage] = useState(1);
@@ -15,13 +15,6 @@ export default function UserRepos({ username, public_repos }) {
     1,
     Math.ceil((public_repos || 0) / repo_per_page)
   );
-
-  // useEffect(() => {
-  //   const cachedRepos = localStorage.getItem("reposCache");
-  //   if (cachedRepos) {
-  //     setReposCache(JSON.parse(cachedRepos));
-  //   }
-  // }, []);
 
   // Handle search mode state
   useEffect(() => {
@@ -36,15 +29,16 @@ export default function UserRepos({ username, public_repos }) {
       setCurrentRepos([]);
       setReposCache({});
       setPage(1);
+      setLoading(true);
     }
   }, [username]);
 
   useEffect(() => {
-    if (!page || !username || searchMode) {
+    if (!page || !username || searchMode || !loading) {
       return;
     }
     fetchGithubRepos(page);
-  }, [page, username, searchMode]);
+  }, [page, username, searchMode, loading]);
 
   async function fetchRepoByName(repoName) {
     if (!repoName) {
@@ -84,7 +78,7 @@ export default function UserRepos({ username, public_repos }) {
       return;
     }
     const repo_url = `https://api.github.com/users/${username}/repos?per_page=${repo_per_page}&page=${page}`;
-    
+
     // Check if page data is in cache
     if (reposCache[page]) {
       setCurrentRepos(reposCache[page]);
