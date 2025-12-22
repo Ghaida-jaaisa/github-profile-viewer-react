@@ -1,16 +1,152 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# GitHub Profile Viewer 🚀
 
-Currently, two official plugins are available:
+A React application that allows users to search for any GitHub profile and explore user details along with their public repositories, featuring pagination, search, and caching for better performance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* 🔍 **Search GitHub users** by username
+* 👤 **Display user profile info**
 
-## Expanding the ESLint configuration
+  * Name & username
+  * Bio & company
+  * Followers / Following
+  * Location & avatar
+* 📦 **Browse public repositories**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+  * Pagination (Next / Previous)
+  * Client-side caching per page
+* 🔎 **Search repositories by name**
+* ⌨️ **Press Enter to search** (keyboard support)
+* ⚡ **Optimized fetching**
+
+  * Avoids duplicate API calls using cache
+* 🛑 **Error & loading handling**
+
+---
+
+## 🧱 Project Structure
+
+```
+src/
+├── components/
+│   ├── GitHubPage.jsx
+│   ├── UserProfile.jsx
+│   ├── UserCard.jsx
+│   ├── UserRepos.jsx
+│   └── RepoCard.jsx
+└── App.jsx
+```
+
+---
+
+## 🧠 How It Works
+
+### 1️⃣ GitHubPage (Parent)
+
+* Acts as the main container
+* Manages:
+
+  * `username`
+  * `public_repos`
+* Passes data between profile & repositories components
+
+---
+
+### 2️⃣ UserProfile
+
+* Fetches user data from GitHub API
+* Handles:
+
+  * Loading & error states
+  * Keyboard interaction (Enter key)
+* Sends fetched data to parent via callbacks
+
+---
+
+### 3️⃣ UserCard
+
+* Displays user information in a clean card UI
+* Handles fallback avatar when no image exists
+* Shows followers, following & location only when data is valid
+
+---
+
+### 4️⃣ UserRepos
+
+* Fetches repositories using:
+
+  * Pagination (`per_page`)
+  * Page-based caching
+* Supports **two modes**:
+
+  * Normal browsing
+  * Search by repository name
+* Uses GitHub Search API for accurate filtering
+
+---
+
+## 🌐 APIs Used
+
+* GitHub User API
+
+  ```
+  https://api.github.com/users/{username}
+  ```
+
+* GitHub Repositories API
+
+  ```
+  https://api.github.com/users/{username}/repos
+  ```
+
+* GitHub Search Repositories API
+
+  ```
+  https://api.github.com/search/repositories
+  ```
+
+---
+
+## 🛠️ Tech Stack
+
+* **React**
+* **React Hooks**
+
+  * `useState`
+  * `useEffect`
+  * `useRef`
+* **Fetch API**
+* **CSS (Custom styling)**
+
+---
+
+## ⚠️ Notes & Improvements
+
+* GitHub API rate limits apply (unauthenticated requests)
+* Possible future enhancements:
+
+  * 🔐 GitHub token support
+  * 💾 Persist cache with `localStorage`
+  * 📱 Better mobile responsiveness
+  * ⭐ Sort repos by stars
+
+---
+
+## ▶️ Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 👩‍💻 Author
+
+Built with care by **Ghaida**
+Clean code • Clear logic • Real-world API handling 💙
+
+---
