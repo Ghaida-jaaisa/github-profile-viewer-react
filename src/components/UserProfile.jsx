@@ -1,72 +1,22 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import UserCard from "./UserCard";
+import useFetch from "../hook/useFetch";
+export default function UserProfile({ setUsername, setReposCount }) {
+  const [requestUrl, setRequestUrl] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data, loading, error } = useFetch(requestUrl);
+  const url = `https://api.github.com/users/${searchTerm}`;
 
-export default function UserProfile({ onUserFetched, onFetch }) {
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const fetchBtnRef = useRef(null);
 
-  async function fetchGithubAPI() {
-    if (!username.trim()) return;
-    setLoading(true);
-    setError(null);
+  const handleClick = () => {
+    setUsername(searchTerm);
+    setRequestUrl(url);
+  };
 
-    try {
-      const url = `https://api.github.com/users/${username}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("User not found");
-        }
-        throw new Error("Something went wrong, try again later");
-      }
-
-      const data = await response.json();
-      // localStorage.setItem("lastUserFetched", JSON.stringify(data));
-
-      onUserFetched(data.login);
-      onFetch(data.public_repos);
-
-      const {
-        name,
-        login,
-        bio,
-        company,
-        followers,
-        following,
-        location,
-        avatar_url,
-      } = data;
-
-      setUser({
-        name,
-        login,
-        bio,
-        company,
-        followers,
-        following,
-        location,
-        avatar_url,
-      });
-    } catch (err) {
-      setError(err.message);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // useEffect(() => {
-  //   const savedUser = localStorage.getItem("lastUserFetched");
-  //   if (savedUser) {
-  //     const parsedUser = JSON.parse(savedUser);
-  //     setUser(parsedUser);
-  //     setUsername(parsedUser.login);
-  //   }
-  // }, []);
+  useEffect(() => {
+    setReposCount(data?.public_repos);
+  }, [data]);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -92,13 +42,13 @@ export default function UserProfile({ onUserFetched, onFetch }) {
           name="username"
           id="username"
           placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value?.trim())}
         />
 
         <button
           className="btn"
-          onClick={fetchGithubAPI}
+          onClick={handleClick}
           disabled={loading}
           ref={fetchBtnRef}
         >
@@ -107,7 +57,7 @@ export default function UserProfile({ onUserFetched, onFetch }) {
       </div>
 
       {error && <p className="error">{error}</p>}
-      {user && <UserCard {...user} />}
+      {data && <UserCard {...data} />}
     </div>
   );
 }

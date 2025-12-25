@@ -3,13 +3,12 @@ import UserProfile from "./UserProfile";
 import UserRepos from "./UserRepos";
 
 function GitHubPage() {
-  const [username, setUsername] = useState(null);
-  const [publicRepos, setPublicRepos] = useState(null);
-
+  const [username, setUsername] = useState("");
+  const [reposCount, setReposCount] = useState(null);
   return (
     <div className="page-container">
-      <UserProfile onUserFetched={setUsername} onFetch={setPublicRepos} />
-      <UserRepos username={username} public_repos={publicRepos} />
+      <UserProfile setUsername={setUsername} setReposCount={setReposCount} />
+      <UserRepos username={username} reposCount={reposCount} />
     </div>
   );
 }
