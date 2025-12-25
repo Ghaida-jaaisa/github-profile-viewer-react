@@ -58,6 +58,7 @@ export default function UserProfile({ setUsername, setReposCount }) {
 
       {error && <p className="error">{error}</p>}
       {data && <UserCard {...data} />}
+      {console.log(data)}
     </div>
   );
 }

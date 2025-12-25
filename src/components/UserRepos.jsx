@@ -32,7 +32,7 @@ export default function UserRepos({ username, reposCount }) {
     }
     const search_url = `https://api.github.com/search/repositories?q=${searchTerm?.trim()}+user:${username}+in:name&per_page=${repo_per_page}&page=${page}`;
     setRequestUrl(search_url);
-  }, [username, page, ]);
+  }, [username, page]);
 
   const handleSearch = () => {
     const value = searchTerm?.trim();
@@ -46,6 +46,7 @@ export default function UserRepos({ username, reposCount }) {
     setRequestUrl(search_url);
   };
 
+  // Change endpoint when clear searchTerm
   useEffect(() => {
     if (searchTerm.length === 0)
       setRequestUrl(

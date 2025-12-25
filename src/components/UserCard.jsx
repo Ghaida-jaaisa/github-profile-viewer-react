@@ -11,6 +11,7 @@ export default function UserCard({
   const isFound = name && name != "User not found";
   const userIcon = "/assets/images/user-regular-full.svg";
   const avatar_url_img = avatar_url ? avatar_url : userIcon;
+
   return (
     <div className="profile-card">
       <div className="profile-avatar-wrapper">
@@ -53,7 +54,7 @@ export default function UserCard({
             alt="location"
             className="location-img"
           />
-          <span>{location ??  'In this world'}</span>
+          <span>{location ?? "In this world"}</span>
         </div>
       )}
     </div>

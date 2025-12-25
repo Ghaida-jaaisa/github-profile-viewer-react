@@ -1,4 +1,4 @@
-import "./App.css";
+ import "./App.css";
 import GithubProfile from "./components/GithubPage";
 function App() {
   return (

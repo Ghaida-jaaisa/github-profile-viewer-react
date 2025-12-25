@@ -30,6 +30,7 @@ export default function useFetch(url) {
         setData(result);
       } catch (err) {
         setError(err.message || "An error occurred.");
+        setData(null)
       } finally {
         setLoading(false);
       }
