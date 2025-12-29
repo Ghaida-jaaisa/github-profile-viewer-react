@@ -116,6 +116,7 @@ export default function UserRepos({ username, reposCount }) {
           description={repo.description}
           stargazers_count={repo.stargazers_count}
           svn_url={repo.svn_url}
+          username={username}
         />
       ))}
     </div>
